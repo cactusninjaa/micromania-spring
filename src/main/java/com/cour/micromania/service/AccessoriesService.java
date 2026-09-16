@@ -5,6 +5,7 @@ import com.cour.micromania.exception.NotFoundException;
 import com.cour.micromania.model.Accessories;
 import com.cour.micromania.model.Customer;
 import com.cour.micromania.model.State;
+import com.cour.micromania.repository.AccessoriesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
