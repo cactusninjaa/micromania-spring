@@ -6,6 +6,7 @@ import com.cour.micromania.model.Accessories;
 import com.cour.micromania.model.Customer;
 import com.cour.micromania.model.State;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,12 +18,9 @@ import static java.lang.Math.round;
 @AllArgsConstructor
 public class AccessoriesService implements ProductService {
 
+    @Getter
     private final List<Accessories> accessories = new ArrayList<>();
     private final ConsoleService consoleService;
-
-    public List<Accessories> getAccessories() {
-        return accessories;
-    }
 
     public Accessories findById(int id) {
         return accessories.stream()
