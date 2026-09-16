@@ -1,13 +1,14 @@
 package com.cour.micromania.model;
 
-import com.cour.micromania.service.ProductService;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
 
-import static java.lang.Math.round;
-
-public class VideoGame implements ProductService {
+@Getter
+@Setter
+public class VideoGame implements Product {
     private static int CPT_ID = 1;
     private final int id;
     private String name;
@@ -18,7 +19,7 @@ public class VideoGame implements ProductService {
     private Saga saga;
     private List<Type> type;
     private State state;
-    private final Date releaseDate;
+    private Date releaseDate;
     private int minimumAgeToPlay;
     private List<Languages> languages;
     private int quantityInStock;
@@ -37,128 +38,5 @@ public class VideoGame implements ProductService {
         this.minimumAgeToPlay = minimumAgeToPlay;
         this.languages = languages;
         this.quantityInStock = quantity;
-    }
-
-    public int sell(int quantity, Customer customer) throws IllegalArgumentException {
-        int quantityAfterSell = this.quantityInStock - quantity;
-        if (quantityAfterSell < 1) {
-            throw new IllegalArgumentException("Not enough product in stock");
-        }
-
-
-        if(customer.getAge() < this.minimumAgeToPlay){
-            throw new IllegalArgumentException("To young for to buy this game");
-        }
-
-        if (customer.isHasFidelity()) {
-            customer.setFidelityPoint(price);
-        }
-        return this.quantityInStock = quantityAfterSell;
-    };
-
-    public int buy(int quantity) {
-        return this.quantityInStock += quantity;
-    };
-
-    public float getReselPrice(State state) throws IllegalArgumentException {
-        if (state == State.BROKEN) {
-            return Float.intBitsToFloat(0);
-        } else if (state == State.STOLEN) {
-            throw new IllegalArgumentException("Stolen product can't be buy");
-        } else {
-            return round(this.price * 0.6);
-        }
-    };
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Console> getCompatibleConsole() {
-        return compatibleConsole;
-    }
-
-    public void setCompatibleConsole(List<Console> compatibleConsole) {
-        this.compatibleConsole = compatibleConsole;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Saga getSaga() {
-        return saga;
-    }
-
-    public void setSaga(Saga saga) {
-        this.saga = saga;
-    }
-
-    public List<Type> getType() {
-        return type;
-    }
-
-    public void setType(List<Type> type) {
-        this.type = type;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public int getMinimumAgeToPlay() {
-        return minimumAgeToPlay;
-    }
-
-    public void setMinimumAgeToPlay(int minimumAgeToPlay) {
-        this.minimumAgeToPlay = minimumAgeToPlay;
-    }
-
-    public List<Languages> getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(List<Languages> languages) {
-        this.languages = languages;
-    }
-
-    public int getQuantityInStock() {
-        return quantityInStock;
-    }
-
-    public void setQuantityInStock(int quantityInStock) {
-        this.quantityInStock = quantityInStock;
     }
 }

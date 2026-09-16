@@ -6,21 +6,19 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
-import static java.lang.Math.round;
-
 @Getter
 @Setter
-public class Accessories{
+public class Accessories implements Product {
     private static int CPT_ID = 1;
     private final int id;
-    String name;
-    List<Console> compatibleConsole;
-    String brand;
-    Float price;
-    State state;
-    Date releaseDate;
-    @Getter @Setter int quantityInStock;
-    List<Color> color;
+    private String name;
+    private List<Console> compatibleConsole;
+    private String brand;
+    private Float price;
+    private State state;
+    private Date releaseDate;
+    private int quantityInStock;
+    private List<Color> color;
 
     public Accessories(String name, List<Console> compatibleConsole, String brand, Float price, State state, Date releaseDate, List<Color> color, int quantity) {
         this.id = CPT_ID++;
