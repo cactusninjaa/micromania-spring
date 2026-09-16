@@ -1,5 +1,7 @@
 package com.cour.micromania.model;
 
+import com.cour.micromania.service.ProductService;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -15,7 +17,7 @@ public class Customer {
     private String lastName;
     private Date birthDate;
     private String email;
-    private List<Product> buyHistory;
+    private List<ProductService> buyHistory;
     private boolean hasFidelity = false;
     private int fidelityPoint;
 
@@ -65,11 +67,11 @@ public class Customer {
         this.email = email;
     }
 
-    public List<Product> getBuyHistory() {
+    public List<ProductService> getBuyHistory() {
         return buyHistory;
     }
 
-    public void setBuyHistory(List<Product> buyHistory) {
+    public void setBuyHistory(List<ProductService> buyHistory) {
         this.buyHistory = buyHistory;
     }
 

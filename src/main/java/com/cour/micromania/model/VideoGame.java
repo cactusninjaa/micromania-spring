@@ -1,11 +1,13 @@
 package com.cour.micromania.model;
 
+import com.cour.micromania.service.ProductService;
+
 import java.util.Date;
 import java.util.List;
 
 import static java.lang.Math.round;
 
-public class VideoGame implements Product {
+public class VideoGame implements ProductService {
     private static int CPT_ID = 1;
     private final int id;
     private String name;

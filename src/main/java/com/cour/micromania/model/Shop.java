@@ -1,5 +1,7 @@
 package com.cour.micromania.model;
 
+import com.cour.micromania.service.ProductService;
+
 import java.util.List;
 
 public class Shop {
@@ -11,19 +13,19 @@ public class Shop {
     private String streetName;
     private int streetNumber;
 
-    private List<Product> productInStock;
+    private List<ProductService> productServiceInStock;
     private boolean isOpen = false;
     private List<Employee> employees;
     private List<Customer> customers;
     private Float monitaryBase;
 
-    public Shop(int zipCode, String city, String streetName, int streetNumber, List<Product> productInStock, List<Employee> employees, List<Customer> customers, Float monitaryBase) {
+    public Shop(int zipCode, String city, String streetName, int streetNumber, List<ProductService> productServiceInStock, List<Employee> employees, List<Customer> customers, Float monitaryBase) {
         this.id = CPT_ID++;
         this.zipCode = zipCode;
         this.city = city;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
-        this.productInStock = productInStock;
+        this.productServiceInStock = productServiceInStock;
         this.employees = employees;
         this.customers = customers;
         this.monitaryBase = monitaryBase;
@@ -61,12 +63,12 @@ public class Shop {
         this.streetNumber = streetNumber;
     }
 
-    public List<Product> getProductInStock() {
-        return productInStock;
+    public List<ProductService> getProductInStock() {
+        return productServiceInStock;
     }
 
-    public void setProductInStock(List<Product> productInStock) {
-        this.productInStock = productInStock;
+    public void setProductInStock(List<ProductService> productServiceInStock) {
+        this.productServiceInStock = productServiceInStock;
     }
 
     public boolean isOpen() {
