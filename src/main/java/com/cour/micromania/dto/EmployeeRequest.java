@@ -2,12 +2,12 @@ package com.cour.micromania.dto;
 
 import com.cour.micromania.model.Role;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public record EmployeeRequest(
         String firstName,
         String lastName,
-        Date birthDate,
+        LocalDate birthDate,
         String email,
         Role role
 ) {

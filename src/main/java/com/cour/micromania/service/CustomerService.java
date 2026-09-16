@@ -3,23 +3,25 @@ package com.cour.micromania.service;
 import com.cour.micromania.dto.CustomerRequest;
 import com.cour.micromania.exception.NotFoundException;
 import com.cour.micromania.model.Customer;
-import lombok.Getter;
+import com.cour.micromania.repository.CustomerRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Getter
 @Service
+@AllArgsConstructor
 public class CustomerService {
 
-    private final List<Customer> customers = new ArrayList<>();
+    private final CustomerRepository customerRepository;
+
+    public List<Customer> getCustomers() {
+        return customerRepository.findAll();
+    }
 
     public Customer findById(int id) {
-        return customers.stream()
-                .filter(c -> c.getId() == id)
-                .findFirst()
+        return customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 
@@ -29,7 +31,11 @@ public class CustomerService {
         }
         return ids.stream()
                 .map(this::findById)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+    }
+
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
     }
 
     public Customer create(CustomerRequest request) {
@@ -40,8 +46,7 @@ public class CustomerService {
                 request.email()
         );
         customer.setHasFidelity(request.hasFidelity());
-        customers.add(customer);
-        return customer;
+        return customerRepository.save(customer);
     }
 
     public Customer update(int id, CustomerRequest request) {
@@ -51,12 +56,10 @@ public class CustomerService {
         customer.setBirthDate(request.birthDate());
         customer.setEmail(request.email());
         customer.setHasFidelity(request.hasFidelity());
-        return customer;
+        return customerRepository.save(customer);
     }
 
     public void delete(int id) {
-        if (!customers.remove(findById(id))) {
-            throw new NotFoundException("Customer not found");
-        }
+        customerRepository.delete(findById(id));
     }
 }

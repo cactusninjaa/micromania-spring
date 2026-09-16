@@ -3,7 +3,7 @@ package com.cour.micromania.dto;
 import com.cour.micromania.model.Color;
 import com.cour.micromania.model.State;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public record AccessoriesRequest(
@@ -12,7 +12,7 @@ public record AccessoriesRequest(
         String brand,
         Float price,
         State state,
-        Date releaseDate,
+        LocalDate releaseDate,
         List<Color> color,
         int quantityInStock
 ) {

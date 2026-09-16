@@ -5,11 +5,10 @@ import com.cour.micromania.exception.NotFoundException;
 import com.cour.micromania.model.Customer;
 import com.cour.micromania.model.State;
 import com.cour.micromania.model.VideoGame;
+import com.cour.micromania.repository.VideoGameRepository;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.round;
@@ -18,14 +17,16 @@ import static java.lang.Math.round;
 @AllArgsConstructor
 public class VideoGameService implements ProductService {
 
-    @Getter
-    private final List<VideoGame> videoGames = new ArrayList<>();
+    private final VideoGameRepository videoGameRepository;
     private final ConsoleService consoleService;
+    private final CustomerService customerService;
+
+    public List<VideoGame> getVideoGames() {
+        return videoGameRepository.findAll();
+    }
 
     public VideoGame findById(int id) {
-        return videoGames.stream()
-                .filter(v -> v.getId() == id)
-                .findFirst()
+        return videoGameRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Video game not found"));
     }
 
@@ -44,8 +45,7 @@ public class VideoGameService implements ProductService {
                 request.languages(),
                 request.quantityInStock()
         );
-        videoGames.add(videoGame);
-        return videoGame;
+        return videoGameRepository.save(videoGame);
     }
 
     public VideoGame update(int id, VideoGameRequest request) {
@@ -62,13 +62,11 @@ public class VideoGameService implements ProductService {
         videoGame.setMinimumAgeToPlay(request.minimumAgeToPlay());
         videoGame.setLanguages(request.languages());
         videoGame.setQuantityInStock(request.quantityInStock());
-        return videoGame;
+        return videoGameRepository.save(videoGame);
     }
 
     public void delete(int id) {
-        if (!videoGames.remove(findById(id))) {
-            throw new NotFoundException("Video game not found");
-        }
+        videoGameRepository.delete(findById(id));
     }
 
     public float getReselPrice(int id) throws IllegalArgumentException {
@@ -95,7 +93,9 @@ public class VideoGameService implements ProductService {
             customer.setFidelityPoint(videoGame.getPrice());
         }
         videoGame.setQuantityInStock(quantityAfterSell);
+        videoGameRepository.save(videoGame);
         customer.getBuyHistory().add(videoGame);
+        customerService.save(customer);
         return quantityAfterSell;
     }
 
@@ -103,6 +103,7 @@ public class VideoGameService implements ProductService {
         VideoGame videoGame = findById(id);
         int newQuantity = videoGame.getQuantityInStock() + quantity;
         videoGame.setQuantityInStock(newQuantity);
+        videoGameRepository.save(videoGame);
         return newQuantity;
     }
 }

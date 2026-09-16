@@ -1,11 +1,11 @@
 package com.cour.micromania.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public record CustomerRequest(
         String firstName,
         String lastName,
-        Date birthDate,
+        LocalDate birthDate,
         String email,
         boolean hasFidelity
 ) {

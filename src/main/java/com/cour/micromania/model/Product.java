@@ -1,22 +1,47 @@
 package com.cour.micromania.model;
 
-import java.util.Date;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
 
 /**
  * Tout ce qui peut etre vendu / rachete en magasin.
+ * Table par sous-classe (JOINED) : une table PRODUCT pour les champs communs,
+ * une table par type de produit pour le reste.
  */
-public interface Product {
-    int getId();
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
+@NoArgsConstructor
+public abstract class Product {
 
-    String getName();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    Float getPrice();
+    private String name;
 
-    State getState();
+    private String brand;
 
-    Date getReleaseDate();
+    private Float price;
 
-    int getQuantityInStock();
+    @Enumerated(EnumType.STRING)
+    private State state;
 
-    void setQuantityInStock(int quantityInStock);
+    private LocalDate releaseDate;
+
+    private int quantityInStock;
+
+    protected Product(String name, String brand, Float price, State state, LocalDate releaseDate, int quantityInStock) {
+        this.name = name;
+        this.brand = brand;
+        this.price = price;
+        this.state = state;
+        this.releaseDate = releaseDate;
+        this.quantityInStock = quantityInStock;
+    }
 }

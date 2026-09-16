@@ -5,25 +5,28 @@ import com.cour.micromania.exception.NotFoundException;
 import com.cour.micromania.model.Console;
 import com.cour.micromania.model.Customer;
 import com.cour.micromania.model.State;
-import lombok.Getter;
+import com.cour.micromania.repository.ConsoleRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.lang.Math.round;
 
 @Service
-@Getter
+@AllArgsConstructor
 public class ConsoleService implements ProductService {
 
-    private final List<Console> consoles = new ArrayList<>();
+    private final ConsoleRepository consoleRepository;
+    private final CustomerService customerService;
+
+    public List<Console> getConsoles() {
+        return consoleRepository.findAll();
+    }
 
     public Console findById(int id) {
-        return consoles.stream()
-                .filter(c -> c.getId() == id)
-                .findFirst()
+        return consoleRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Console not found"));
     }
 
@@ -33,7 +36,7 @@ public class ConsoleService implements ProductService {
         }
         return ids.stream()
                 .map(this::findById)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
     }
 
     public Console create(ConsoleRequest request) {
@@ -46,8 +49,7 @@ public class ConsoleService implements ProductService {
                 request.quantityInStock(),
                 request.colors()
         );
-        consoles.add(console);
-        return console;
+        return consoleRepository.save(console);
     }
 
     public Console update(int id, ConsoleRequest request) {
@@ -59,13 +61,11 @@ public class ConsoleService implements ProductService {
         console.setReleaseDate(request.releaseDate());
         console.setQuantityInStock(request.quantityInStock());
         console.setColors(request.colors());
-        return console;
+        return consoleRepository.save(console);
     }
 
     public void delete(int id) {
-        if (!consoles.remove(findById(id))) {
-            throw new NotFoundException("Console not found");
-        }
+        consoleRepository.delete(findById(id));
     }
 
     public float getReselPrice(int id) throws IllegalArgumentException {
@@ -89,7 +89,9 @@ public class ConsoleService implements ProductService {
             customer.setFidelityPoint(console.getPrice());
         }
         console.setQuantityInStock(quantityAfterSell);
+        consoleRepository.save(console);
         customer.getBuyHistory().add(console);
+        customerService.save(customer);
         return quantityAfterSell;
     }
 
@@ -97,6 +99,7 @@ public class ConsoleService implements ProductService {
         Console console = findById(id);
         int newQuantity = console.getQuantityInStock() + quantity;
         console.setQuantityInStock(newQuantity);
+        consoleRepository.save(console);
         return newQuantity;
     }
 }

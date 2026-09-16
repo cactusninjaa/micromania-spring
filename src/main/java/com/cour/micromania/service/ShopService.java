@@ -3,26 +3,26 @@ package com.cour.micromania.service;
 import com.cour.micromania.dto.ShopRequest;
 import com.cour.micromania.exception.NotFoundException;
 import com.cour.micromania.model.Shop;
+import com.cour.micromania.repository.ShopRepository;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class ShopService {
 
-    @Getter
-    private final List<Shop> shops = new ArrayList<>();
+    private final ShopRepository shopRepository;
     private final EmployeeService employeeService;
     private final CustomerService customerService;
 
+    public List<Shop> getShops() {
+        return shopRepository.findAll();
+    }
+
     public Shop findById(int id) {
-        return shops.stream()
-                .filter(s -> s.getId() == id)
-                .findFirst()
+        return shopRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Shop not found"));
     }
 
@@ -37,8 +37,7 @@ public class ShopService {
                 request.monitaryBase()
         );
         shop.setOpen(request.open());
-        shops.add(shop);
-        return shop;
+        return shopRepository.save(shop);
     }
 
     public Shop update(int id, ShopRequest request) {
@@ -51,12 +50,10 @@ public class ShopService {
         shop.setCustomers(customerService.findAllByIds(request.customerIds()));
         shop.setMonitaryBase(request.monitaryBase());
         shop.setOpen(request.open());
-        return shop;
+        return shopRepository.save(shop);
     }
 
     public void delete(int id) {
-        if (!shops.remove(findById(id))) {
-            throw new NotFoundException("Shop not found");
-        }
+        shopRepository.delete(findById(id));
     }
 }

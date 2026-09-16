@@ -5,7 +5,7 @@ import com.cour.micromania.model.Saga;
 import com.cour.micromania.model.State;
 import com.cour.micromania.model.Type;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public record VideoGameRequest(
@@ -17,7 +17,7 @@ public record VideoGameRequest(
         Saga saga,
         List<Type> type,
         State state,
-        Date releaseDate,
+        LocalDate releaseDate,
         int minimumAgeToPlay,
         List<Languages> languages,
         int quantityInStock

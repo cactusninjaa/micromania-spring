@@ -3,23 +3,25 @@ package com.cour.micromania.service;
 import com.cour.micromania.dto.EmployeeRequest;
 import com.cour.micromania.exception.NotFoundException;
 import com.cour.micromania.model.Employee;
-import lombok.Getter;
+import com.cour.micromania.repository.EmployeeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Getter
 @Service
+@AllArgsConstructor
 public class EmployeeService {
 
-    private final List<Employee> employees = new ArrayList<>();
+    private final EmployeeRepository employeeRepository;
+
+    public List<Employee> getEmployees() {
+        return employeeRepository.findAll();
+    }
 
     public Employee findById(int id) {
-        return employees.stream()
-                .filter(e -> e.getId() == id)
-                .findFirst()
+        return employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee not found"));
     }
 
@@ -29,7 +31,7 @@ public class EmployeeService {
         }
         return ids.stream()
                 .map(this::findById)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
     }
 
     public Employee create(EmployeeRequest request) {
@@ -40,8 +42,7 @@ public class EmployeeService {
                 request.email(),
                 request.role()
         );
-        employees.add(employee);
-        return employee;
+        return employeeRepository.save(employee);
     }
 
     public Employee update(int id, EmployeeRequest request) {
@@ -51,12 +52,10 @@ public class EmployeeService {
         employee.setBirthDate(request.birthDate());
         employee.setEmail(request.email());
         employee.setRole(request.role());
-        return employee;
+        return employeeRepository.save(employee);
     }
 
     public void delete(int id) {
-        if (!employees.remove(findById(id))) {
-            throw new NotFoundException("Employee not found");
-        }
+        employeeRepository.delete(findById(id));
     }
 }

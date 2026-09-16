@@ -5,10 +5,10 @@ import com.cour.micromania.exception.NotFoundException;
 import com.cour.micromania.model.Accessories;
 import com.cour.micromania.model.Customer;
 import com.cour.micromania.model.State;
+import com.cour.micromania.repository.AccessoriesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.round;
@@ -17,17 +17,16 @@ import static java.lang.Math.round;
 @AllArgsConstructor
 public class AccessoriesService implements ProductService {
 
-    private final List<Accessories> accessories = new ArrayList<>();
+    private final AccessoriesRepository accessoriesRepository;
     private final ConsoleService consoleService;
+    private final CustomerService customerService;
 
     public List<Accessories> getAccessories() {
-        return accessories;
+        return accessoriesRepository.findAll();
     }
 
     public Accessories findById(int id) {
-        return accessories.stream()
-                .filter(a -> a.getId() == id)
-                .findFirst()
+        return accessoriesRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Accessory not found"));
     }
 
@@ -42,8 +41,7 @@ public class AccessoriesService implements ProductService {
                 request.color(),
                 request.quantityInStock()
         );
-        accessories.add(accessory);
-        return accessory;
+        return accessoriesRepository.save(accessory);
     }
 
     public Accessories update(int id, AccessoriesRequest request) {
@@ -56,13 +54,11 @@ public class AccessoriesService implements ProductService {
         accessory.setReleaseDate(request.releaseDate());
         accessory.setColor(request.color());
         accessory.setQuantityInStock(request.quantityInStock());
-        return accessory;
+        return accessoriesRepository.save(accessory);
     }
 
     public void delete(int id) {
-        if (!accessories.remove(findById(id))) {
-            throw new NotFoundException("Accessory not found");
-        }
+        accessoriesRepository.delete(findById(id));
     }
 
     public float getReselPrice(int id) throws IllegalArgumentException {
@@ -86,7 +82,9 @@ public class AccessoriesService implements ProductService {
             customer.setFidelityPoint(accessory.getPrice());
         }
         accessory.setQuantityInStock(quantityAfterSell);
+        accessoriesRepository.save(accessory);
         customer.getBuyHistory().add(accessory);
+        customerService.save(customer);
         return quantityAfterSell;
     }
 
@@ -94,6 +92,7 @@ public class AccessoriesService implements ProductService {
         Accessories accessory = findById(id);
         int newQuantity = accessory.getQuantityInStock() + quantity;
         accessory.setQuantityInStock(newQuantity);
+        accessoriesRepository.save(accessory);
         return newQuantity;
     }
 }
