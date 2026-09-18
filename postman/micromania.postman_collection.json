@@ -1,0 +1,623 @@
+{
+	"info": {
+		"_postman_id": "8f2a1e2a-6b1a-4a3a-9c3e-micromania001",
+		"name": "Micromania API",
+		"description": "Collection couvrant toutes les routes de l'API Spring Boot micromania-spring.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "customerId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "quantity",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Consoles",
+			"item": [
+				{
+					"name": "Lister les consoles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/consoles",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles"]
+						}
+					}
+				},
+				{
+					"name": "Récupérer une console par id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/consoles/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Créer une console",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PlayStation 5\",\n  \"brand\": \"Sony\",\n  \"price\": 499.99,\n  \"state\": \"BRAND_NEW\",\n  \"releaseDate\": \"2020-11-19\",\n  \"quantityInStock\": 10,\n  \"colors\": [\"BLACK\", \"WHITE\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/consoles",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles"]
+						}
+					}
+				},
+				{
+					"name": "Mettre à jour une console",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PlayStation 5 Pro\",\n  \"brand\": \"Sony\",\n  \"price\": 599.99,\n  \"state\": \"BRAND_NEW\",\n  \"releaseDate\": \"2024-11-07\",\n  \"quantityInStock\": 5,\n  \"colors\": [\"BLACK\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/consoles/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Supprimer une console",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/consoles/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Prix de revente d'une console",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/consoles/{{id}}/resel-price",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles", "{{id}}", "resel-price"]
+						}
+					}
+				},
+				{
+					"name": "Vendre une console",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/consoles/{{id}}/sell?quantity={{quantity}}&customerId={{customerId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles", "{{id}}", "sell"],
+							"query": [
+								{ "key": "quantity", "value": "{{quantity}}" },
+								{ "key": "customerId", "value": "{{customerId}}" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Acheter (réapprovisionner) une console",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/consoles/{{id}}/buy?quantity={{quantity}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["consoles", "{{id}}", "buy"],
+							"query": [
+								{ "key": "quantity", "value": "{{quantity}}" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Video Games",
+			"item": [
+				{
+					"name": "Lister les jeux vidéo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/video-games",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games"]
+						}
+					}
+				},
+				{
+					"name": "Récupérer un jeu vidéo par id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/video-games/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Créer un jeu vidéo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"GTA V\",\n  \"description\": \"Open world action game\",\n  \"compatibleConsoleIds\": [1],\n  \"brand\": \"Rockstar Games\",\n  \"price\": 39.99,\n  \"saga\": \"GTA\",\n  \"type\": [\"ACTION\"],\n  \"state\": \"BRAND_NEW\",\n  \"releaseDate\": \"2013-09-17\",\n  \"minimumAgeToPlay\": 18,\n  \"languages\": [\"FR\", \"EN\"],\n  \"quantityInStock\": 20\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/video-games",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games"]
+						}
+					}
+				},
+				{
+					"name": "Mettre à jour un jeu vidéo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"GTA V - Edition Premium\",\n  \"description\": \"Open world action game - Premium edition\",\n  \"compatibleConsoleIds\": [1],\n  \"brand\": \"Rockstar Games\",\n  \"price\": 49.99,\n  \"saga\": \"GTA\",\n  \"type\": [\"ACTION\"],\n  \"state\": \"BRAND_NEW\",\n  \"releaseDate\": \"2013-09-17\",\n  \"minimumAgeToPlay\": 18,\n  \"languages\": [\"FR\", \"EN\"],\n  \"quantityInStock\": 15\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/video-games/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Supprimer un jeu vidéo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/video-games/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Prix de revente d'un jeu vidéo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/video-games/{{id}}/resel-price",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games", "{{id}}", "resel-price"]
+						}
+					}
+				},
+				{
+					"name": "Vendre un jeu vidéo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/video-games/{{id}}/sell?quantity={{quantity}}&customerId={{customerId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games", "{{id}}", "sell"],
+							"query": [
+								{ "key": "quantity", "value": "{{quantity}}" },
+								{ "key": "customerId", "value": "{{customerId}}" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Acheter (réapprovisionner) un jeu vidéo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/video-games/{{id}}/buy?quantity={{quantity}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["video-games", "{{id}}", "buy"],
+							"query": [
+								{ "key": "quantity", "value": "{{quantity}}" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Accessories",
+			"item": [
+				{
+					"name": "Lister les accessoires",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accessories",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories"]
+						}
+					}
+				},
+				{
+					"name": "Récupérer un accessoire par id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accessories/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Créer un accessoire",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Manette DualSense\",\n  \"compatibleConsoleIds\": [1],\n  \"brand\": \"Sony\",\n  \"price\": 69.99,\n  \"state\": \"BRAND_NEW\",\n  \"releaseDate\": \"2020-11-19\",\n  \"color\": [\"WHITE\", \"BLACK\"],\n  \"quantityInStock\": 30\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/accessories",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories"]
+						}
+					}
+				},
+				{
+					"name": "Mettre à jour un accessoire",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Manette DualSense Edge\",\n  \"compatibleConsoleIds\": [1],\n  \"brand\": \"Sony\",\n  \"price\": 219.99,\n  \"state\": \"BRAND_NEW\",\n  \"releaseDate\": \"2023-01-26\",\n  \"color\": [\"BLACK\"],\n  \"quantityInStock\": 12\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/accessories/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Supprimer un accessoire",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accessories/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Prix de revente d'un accessoire",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accessories/{{id}}/resel-price",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories", "{{id}}", "resel-price"]
+						}
+					}
+				},
+				{
+					"name": "Vendre un accessoire",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accessories/{{id}}/sell?quantity={{quantity}}&customerId={{customerId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories", "{{id}}", "sell"],
+							"query": [
+								{ "key": "quantity", "value": "{{quantity}}" },
+								{ "key": "customerId", "value": "{{customerId}}" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Acheter (réapprovisionner) un accessoire",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accessories/{{id}}/buy?quantity={{quantity}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["accessories", "{{id}}", "buy"],
+							"query": [
+								{ "key": "quantity", "value": "{{quantity}}" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Lister les clients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/customers",
+							"host": ["{{baseUrl}}"],
+							"path": ["customers"]
+						}
+					}
+				},
+				{
+					"name": "Récupérer un client par id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/customers/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["customers", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Créer un client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Dupont\",\n  \"birthDate\": \"1995-05-20\",\n  \"email\": \"jean.dupont@example.com\",\n  \"hasFidelity\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers",
+							"host": ["{{baseUrl}}"],
+							"path": ["customers"]
+						}
+					}
+				},
+				{
+					"name": "Mettre à jour un client",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Dupont\",\n  \"birthDate\": \"1995-05-20\",\n  \"email\": \"jean.dupont@example.com\",\n  \"hasFidelity\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["customers", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Supprimer un client",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/customers/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["customers", "{{id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "Lister les employés",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/employees",
+							"host": ["{{baseUrl}}"],
+							"path": ["employees"]
+						}
+					}
+				},
+				{
+					"name": "Récupérer un employé par id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/employees/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["employees", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Créer un employé",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Marie\",\n  \"lastName\": \"Martin\",\n  \"birthDate\": \"1990-03-12\",\n  \"email\": \"marie.martin@micromania.fr\",\n  \"role\": \"VENDOR\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/employees",
+							"host": ["{{baseUrl}}"],
+							"path": ["employees"]
+						}
+					}
+				},
+				{
+					"name": "Mettre à jour un employé",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Marie\",\n  \"lastName\": \"Martin\",\n  \"birthDate\": \"1990-03-12\",\n  \"email\": \"marie.martin@micromania.fr\",\n  \"role\": \"MANAGER\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/employees/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["employees", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Supprimer un employé",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/employees/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["employees", "{{id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Shops",
+			"item": [
+				{
+					"name": "Lister les magasins",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shops",
+							"host": ["{{baseUrl}}"],
+							"path": ["shops"]
+						}
+					}
+				},
+				{
+					"name": "Récupérer un magasin par id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shops/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["shops", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Créer un magasin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"zipCode\": 75001,\n  \"city\": \"Paris\",\n  \"streetName\": \"Rue de Rivoli\",\n  \"streetNumber\": 10,\n  \"employeeIds\": [1],\n  \"customerIds\": [1],\n  \"monitaryBase\": 5000.0,\n  \"open\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/shops",
+							"host": ["{{baseUrl}}"],
+							"path": ["shops"]
+						}
+					}
+				},
+				{
+					"name": "Mettre à jour un magasin",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"zipCode\": 75001,\n  \"city\": \"Paris\",\n  \"streetName\": \"Rue de Rivoli\",\n  \"streetNumber\": 12,\n  \"employeeIds\": [1, 2],\n  \"customerIds\": [1],\n  \"monitaryBase\": 7500.0,\n  \"open\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/shops/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["shops", "{{id}}"]
+						}
+					}
+				},
+				{
+					"name": "Supprimer un magasin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shops/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["shops", "{{id}}"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
